@@ -1,5 +1,12 @@
 import { GoogleGenAI } from "@google/genai";
 
+// TypeScript가 process 변수를 인식할 수 있도록 선언합니다.
+declare var process: {
+  env: {
+    API_KEY?: string;
+  };
+};
+
 export const getLuckyFortune = async (numbers: number[], manualKey?: string): Promise<string> => {
   // 사용자가 입력한 키를 우선적으로 사용합니다.
   let apiKey = manualKey;
@@ -7,7 +14,7 @@ export const getLuckyFortune = async (numbers: number[], manualKey?: string): Pr
   // 수동 입력 키가 없는 경우 환경 변수에서 시도합니다.
   if (!apiKey) {
     try {
-      apiKey = (process.env as any).API_KEY;
+      apiKey = process.env.API_KEY;
     } catch {
       apiKey = undefined;
     }
@@ -30,12 +37,10 @@ export const getLuckyFortune = async (numbers: number[], manualKey?: string): Pr
       config: {
         temperature: 0.9,
         maxOutputTokens: 200,
-        // Gemini 3 모델에서 maxOutputTokens 사용 시 thinkingBudget 설정 권장
         thinkingConfig: { thinkingBudget: 100 },
       }
     });
 
-    // .text는 메서드가 아닌 속성입니다.
     return response.text || "행운이 당신을 기다리고 있습니다! 오늘 하루 멋진 일이 생길 것 같아요.";
   } catch (error: any) {
     console.error("Gemini Error:", error);
