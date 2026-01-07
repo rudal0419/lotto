@@ -7,8 +7,8 @@ export const getLuckyFortune = async (numbers: number[], manualKey?: string): Pr
   // 수동 입력 키가 없는 경우 환경 변수에서 시도합니다.
   if (!apiKey) {
     try {
-      apiKey = process.env.API_KEY;
-    } catch (e) {
+      apiKey = (process.env as any).API_KEY;
+    } catch {
       apiKey = undefined;
     }
   }

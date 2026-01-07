@@ -9,7 +9,6 @@ const STORAGE_KEY = 'SUPER_LOTTO_API_KEY';
 
 const App: React.FC = () => {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
-  const [results, setResults] = useState<number[]>([]);
   const [tempResults, setTempResults] = useState<number[]>([]);
   const [fortune, setFortune] = useState<string | null>(null);
   const [isLoadingFortune, setIsLoadingFortune] = useState(false);
@@ -40,7 +39,6 @@ const App: React.FC = () => {
   };
 
   const startSpinning = () => {
-    setResults([]);
     setTempResults([]);
     setFortune(null);
     setStatus(GameStatus.SPINNING);
@@ -63,7 +61,6 @@ const App: React.FC = () => {
       setTempResults(prev => [...prev, selected[i]]);
     }
 
-    setResults(selected);
     setStatus(GameStatus.FINISHED);
 
     setIsLoadingFortune(true);
@@ -87,7 +84,6 @@ const App: React.FC = () => {
 
   const resetGame = () => {
     setStatus(GameStatus.IDLE);
-    setResults([]);
     setTempResults([]);
     setFortune(null);
   };
