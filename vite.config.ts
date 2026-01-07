@@ -5,16 +5,14 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   define: {
-    // 빌드 타임에 process.env.API_KEY를 실제 값으로 치환합니다.
+    // Vercel 환경 변수에서 가져온 API_KEY를 클라이언트 코드에 주입
     'process.env.API_KEY': JSON.stringify(process.env.API_KEY || '')
+  },
+  server: {
+    port: 3000
   },
   build: {
     outDir: 'dist',
-    sourcemap: false,
-    rollupOptions: {
-      input: {
-        main: './index.html'
-      }
-    }
+    sourcemap: false
   }
 });
